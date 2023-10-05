@@ -1,3 +1,13 @@
-#index:
+# index:
 #    path: /
-#    controller: App\Controller\DefaultController::index
+#    controller: App\Controller\ViewController::index
+
+# luck_number:
+#     path: /lucky_number
+#     controller: App\Controller\ViewController::number
+
+not_found:
+    path: /{url}
+    controller: App\Controller\ErrorController::pageNotFound
+    requirements:
+        url: '.*'
