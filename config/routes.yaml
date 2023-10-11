@@ -11,3 +11,7 @@ not_found:
     controller: App\Controller\ErrorController::pageNotFound
     requirements:
         url: '.*'
+
+_controller:
+    resource: .
+    type: annotation

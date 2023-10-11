@@ -1,0 +1,103 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12 text-center form-style">
+            {{ form_start(form) }}
+            <div class="row">
+              {# {{ form_start(form, {'attr': {'class': 'form-control'}}) }}
+                  <div class="form-group">
+                      {{ form_widget(form,  {'attr': {'class': 'form-control'}}) }}
+                  </div>
+                  {{ form_errors(form) }}
+                  
+              {{ form_end(form) }} #}
+                <div class="form-group form-inline">
+                    {{ form_label(form.name) }}
+                    {{ form_widget(form.name,  {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.name) }}
+                </div>
+                <div class="form-group form-inline">
+                    {{ form_label(form.user_name) }}
+                    {{ form_widget(form.user_name,  {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.user_name) }}
+                </div>
+                <div class="form-group form-inline">
+                    {{ form_label(form.password) }}
+                    {{ form_widget(form.password,  {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.password) }}
+                </div>
+                <div class="form-group form-inline">
+                    {# Render the UserLevelType collection #}
+                    {# {{ dump(form.user_level) }} #}
+                    {# <div id="user_levels" data-prototype="{{ form_widget(form.user_level.vars.prototype)|e('html_attr') }}">
+                        {{ form_label(form.user_level) }}
+
+                        {% for userLevelForm in form.user_level %}
+                            <div class="user-level-entry">
+                                {{ form_widget(userLevelForm) }}
+                                {{ form_errors(form.user_level) }}
+                            </div>
+                        {% endfor %}
+
+                        <a href="#" class="add-entry" onclick="addEntry(); return false;">Add User Level</a>
+                    </div> #}
+                    {{ form_widget(form.user_level, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+              </div>
+            </div>
+            {{ form_end(form) }}
+
+            <script>
+                // Add and remove functionality for the collection
+                var userLevelsContainer = document.getElementById('user_levels');
+                var entriesContainer = userLevelsContainer.querySelector('.user-level-entries');
+                var index = 0;
+
+                // Add entry
+                function addEntry() {
+                    if (!entriesContainer) {
+                        // Create entriesContainer if it doesn't exist
+                        entriesContainer = document.createElement('div');
+                        entriesContainer.className = 'user-level-entries';
+                        userLevelsContainer.appendChild(entriesContainer);
+                    }
+
+                    if (entriesContainer.childElementCount === 0) {
+                        // Show "Remove" button when the first entry is added
+                        entriesContainer.innerHTML = '';
+                        var prototype = userLevelsContainer.getAttribute('data-prototype').replace(/__name__/g, index);
+                        var newEntry = document.createElement('div');
+                        newEntry.className = 'user-level-entry';
+                        newEntry.innerHTML = prototype;
+                        entriesContainer.appendChild(newEntry);
+
+                        // Show "Remove" button
+                        var removeButton = document.createElement('a');
+                        removeButton.href = '#';
+                        removeButton.className = 'remove-entry';
+                        removeButton.textContent = 'Remove';
+                        removeButton.onclick = function() { removeEntry(newEntry); return false; };
+                        entriesContainer.appendChild(removeButton);
+                    }
+                }
+
+                // Remove entry
+                function removeEntry(entry) {
+                    entry.parentNode.removeChild(entry);
+                    
+                    // Hide "Remove" button when the last entry is removed
+                    if (entriesContainer && entriesContainer.childElementCount === 0) {
+                        entriesContainer.innerHTML = '';
+                        // Show "Add" button again
+                        var addButton = document.createElement('a');
+                        addButton.href = '#';
+                        addButton.className = 'add-entry';
+                        addButton.textContent = 'Add User Level';
+                        addButton.onclick = function() { addEntry(); return false; };
+                        entriesContainer.appendChild(addButton);
+                    }
+                }
+            </script>
+        </div>
+    </div>
+</div>

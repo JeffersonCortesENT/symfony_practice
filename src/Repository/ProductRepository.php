@@ -47,6 +47,49 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Product[]
+     */
+    public function findAllGreaterThanPrice(int $price): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        //DQL Method
+        // $query = $entityManager->createQuery(
+        //     'SELECT product
+        //     FROM App\Entity\Product product
+        //     WHERE product.price > :price
+        //     ORDER BY product.price ASC'
+        // )->setParameter('price', $price);
+
+        // returns an array of Product objects
+        //return $query->getResult();
+
+        //Query Builder Method
+        $queryBuilder = $this->createQueryBuilder('product')
+        ->where('product.price > :price')
+        ->setParameter('price', $price)
+        ->orderBy('product.price', 'ASC');
+
+        $query = $queryBuilder->getQuery();
+
+        return $query->execute();
+    }
+
+    public function findOneByIdJoinedToCategory(int $productId): ?Product
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p, c
+            FROM App\Entity\Product p
+            INNER JOIN p.category c
+            WHERE p.id = :id'
+        )->setParameter('id', $productId);
+
+        return $query->getOneOrNullResult();
+    }
+
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */

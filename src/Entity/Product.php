@@ -19,7 +19,8 @@ class Product
     private $id;
     /**
      * @ORM\Column(type="string", length=100)
-     * @Assert\Length(max=100)
+     * @Assert\Length(max=100, maxMessage="Exceeded maximum characters!")
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -27,6 +28,21 @@ class Product
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
+     * @Assert\Type(type="numeric")
+     * @Assert\NotBlank()
+     */
+    private $price;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\Type(type="integer")
+     * @Assert\NotBlank()
+     */
+    private $category;
 
     public function getId(): ?int
     {
@@ -53,6 +69,30 @@ class Product
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?string $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

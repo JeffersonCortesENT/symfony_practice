@@ -1,0 +1,5 @@
+{{ form_start(form) }}
+    {{ form_row(form.level_code) }}
+    {{ form_row(form.description) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
